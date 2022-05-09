@@ -1,9 +1,6 @@
-:root{
-    /* --main-wt-text: #FFFCFC; */
-    --main-wt-text: #ced8da;
-    --main-wt-text-darker: #b9c2c4;
-    /* --color-light: #BFCECB; */
-    --color-light: #ced8da;
+:root {
+    --color-wt: #ced8da;
+    --color-wt-darker: #b9c2c4;
     --color-primary: #0B3D44;
     --color-pimrary-dark: #0a373d;
     --color-primary-light: #0b3d44;
@@ -11,7 +8,6 @@
     --color-secondary-dark: #c35b29;
     --color-secondary-light: #dd7443;
 }
-
 
 * {
     padding: 0;
@@ -21,21 +17,19 @@
 
 html {
     font-size: 62.5%;
-    color: var(--main-wt-text);
+    color: var(--color-wt);
     font-family: 'Roboto', sans-serif;
-    position: relative;
 }
 
-
-
-body{
-    /* box-shadow: inset 0 0 0 1400px rgba(0,0,0,.5); */
+body {
     background-image: url('./assets/background-lightning.jpg');
     background-size:100%;
     background-repeat: no-repeat;
     background-position: 50% 10%;
     overflow: hidden;
     position: relative;
+    /* max-height: 100vh; */
+    /* min-height: 80rem; */
 }
 
 
@@ -43,7 +37,10 @@ body{
 
     max-width: 140rem;
     margin: 5rem auto;
-    /* background-color: red; */
+}
+
+.container{
+    max-width: 120rem;
 }
 
 .heading-primary {
@@ -51,7 +48,6 @@ body{
     letter-spacing: -2px;
     font-weight: 500;
     font-style: italic;
-    /* text-transform: uppercase; */
 }
 
 .content-container {
@@ -59,12 +55,13 @@ body{
     background-color: var(--color-primary);
     height: 40vh;
     position: relative;
-    top: 80rem;
+    /* Temp */
+    top: 100rem;
     left: 0;
     z-index: 50;
     transition: top 500ms ease-in-out;
     padding: 5rem 10rem 5rem 10rem;
-    /* pointer-events: none; */
+
 }
 
 .content-container::after {
@@ -80,15 +77,12 @@ body{
     top: -10rem;
     left: 0;    
     z-index: -1;
-    /* pointer-events: all; */
 }
 
 .back-btn {
     position: absolute;
     width: 0;
     height: 0;
-    /* border-left: 20px solid var(--color-secondary);
-    border-right: 20px solid var(--color-secondary); */
     border-left: 15px solid transparent;
     border-right: 15px solid transparent;
     border-top: 35px solid #efefef;
@@ -102,23 +96,6 @@ body{
     cursor: pointer;
 }
 
-/* .content-container::before {
-    content: '';
-    width: 0;
-    height: 0;
-    border-left: 20px solid var(--color-secondary);
-    border-right: 20px solid var(--color-secondary);
-    border-top: 30px solid #fff;
-    background-color: #fff;
-    position: absolute;
-    top: -14rem;
-    left: 50%;
-    z-index: 10000;
-    cursor: pointer;
-    transition: transform 300ms ease-in;
-    border-bottom: 0;
-} */
-
 .back-btn:hover {
     transform: translateY(1rem);
     border-top: 35px solid #e2e0e0;
@@ -126,12 +103,69 @@ body{
 
 .main-data {
     font-size: 2.6rem;
+    display: flex;
+    justify-content: space-around;
+    padding-bottom: 1rem;
 }
 
 .city {
     font-size: 4rem;
 }
+/* List */
 
+.current-info {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem
+}
+
+.current-info--item {
+
+}
+
+.country {
+    
+}
+
+.city {
+
+}
+
+.current-temp {
+    font-size: 3rem;
+}
+
+.condition {
+
+}
+
+.feels-like {
+
+}
+
+.current-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 10rem;
+}
+.current-list--item {
+
+}
+
+.icon {
+    
+}
+
+
+
+
+
+
+
+
+/* end list */
 .form-container {
     background-color: var(--color-secondary);
     padding: 0 1rem 1rem 0;
@@ -156,7 +190,7 @@ body{
 
 .input-city {
     font-size: 2.5rem;
-    background-color: var(--color-light);
+    background-color: var(--color-wt);
     padding: 1rem;
     border: none;
     border-radius: 8px 0 8px 8px;
@@ -170,7 +204,7 @@ body{
     padding: .8rem;
     padding-left: 1rem;
     font-size: 2rem;
-    color: var(--main-wt-text);
+    color: var(--color-wt);
     background-color: transparent;
     border: none;
     border-radius: 5px;
@@ -178,12 +212,17 @@ body{
 }
 
 footer {
-    display: flex;
-    justify-content: center;
     font-size: 1.4rem;
-    position: relative;
-    bottom: -14.5rem;
+    
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
     z-index: 100;
+}
+
+footer .email {
+    margin-left: 1rem;
 }
 
 a:link,
@@ -196,8 +235,6 @@ a:visited {
 
 a:hover,
 a:active {
-    color: var(--main-wt-text-darker)
+    color: var(--color-wt-darker)
 }
-
-
 

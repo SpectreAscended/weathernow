@@ -2,27 +2,14 @@
 
 const btn = document.querySelector('h1');
 const contentContainer = document.querySelector('.content-container');
-const temp = document.querySelector('.temp');
-const feelsLike = document.querySelector('.feels-like');
-const wind = document.querySelector('.wind');
 const inputCity = document.querySelector('.input-city');
 const submitBtn = document.getElementById('submit-btn');
-const city = document.querySelector('.city');
 const mainData = document.querySelector('.main-data');
-const forcastImage = document.querySelector('.forcast-image');
+// const forcastImage = document.querySelector('.forcast-image');
 const backBtn = document.querySelector('.back-btn');
 
 
-// btn.addEventListener('click', function() {
-//     contentContainer.style.top = '20rem';
-//     console.log('yo');
-// })
 
-const state = {
-    temp: '',
-    feelsLike: ''
-    
-};
 
 
 const windDirection = function (dir) {
@@ -43,6 +30,11 @@ const weatherData = async function(query) {
         if(!query) return; 
         const url = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${query}&appid=d9819c90d382ddc65dcc500f8e98498f&units=metric`);
         const data = await url.json();
+        console.log(data);
+        if(data.cod === '404') {
+            mainData.innerHTML = '<span>Couldn\'t find your city. Please try again!</span>'
+            throw new Error(`Couldn't find your city.  Please try again! (${data.cod})`)
+        }
 
         const {lon, lat} = data.coord;
 
@@ -50,20 +42,56 @@ const weatherData = async function(query) {
         const geoData = await geoUrl.json();
         console.log(geoData);
 
-        state.temp = data.main.temp
+        const state = {
+            temp: Math.round(data.main.temp),
+            feelsLike: Math.round(data.main.feels_like),
+            windSpeed: data.wind.speed,
+            windDir: data.wind.deg,
+            gust: data?.wind.gust,
+            humidity: data.main?.humidity,
+            pressure: data.main.pressure,
+            condition: data.weather[0].description,
+            icon: data.weather[0].icon,
+            provState: geoData.features[0].properties.state_code,
+            country: geoData.features[0].properties.country,
+            city: data.name,
+            rain: data?.rain?.['1h'],
+        };
+        
 
-        state.feelsLike = data.main.feels_like
-        city.textContent = `${data.name}${geoData.features[0].properties.state_code ? ', ' + geoData.features[0].properties.state_code : ', ' + (geoData.features[0].properties.country_code).toUpperCase()}`;
-        temp.textContent = `Current temp: ${Math.round(state.temp)}℃`;
-        feelsLike.textContent = `Feels like: ${Math.round(state.feelsLike)}℃`;
-        wind.textContent = `Wind: ${windDirection(data.wind.deg)} at ${Math.round(data.wind.speed)} kph`;
-        console.log(data);
-        const icon = data.weather[0].icon;
-        console.log(icon);
+        const imageUrl = await `http://openweathermap.org/img/wn/${state.icon}@2x.png`;
 
-        const imageUrl = await `http://openweathermap.org/img/wn/${icon}@2x.png`;
+        const generateMarkup = function() {
+            mainData.innerHTML = '';
+            const markup = `
+                <div class="current-info">
+                    <img class="icon" src="${imageUrl}" alt="${state.condition}">
+                    <span class="current-info--item country">${state.country}</span>
+                    <span class="current-info--item city">${state.city}${state.provState ? ', ' + state.provState : ''}</span>
+                    <span class="current-info--item condition">${state.condition.slice(0,1).toUpperCase() + state.condition.slice(1)}</span>
+                    <span class="current-info--item current-temp">Current temp: ${state.temp}℃</span>
+                    <span class="current-info--item feels-like">Feels like: ${state.feelsLike}℃</span>
+                </div>
+                <ul class="current-list">
+                    <li class="current-list--item wind">Wind: ${windDirection(state.windDir)} at ${state.windSpeed} km/h</li>
+                    <li class="current-list--item gusting">Gusting: ${state.gust ? state.gust : '0'} km/h</li>
+                    <li class="current-list--item humidity">Humidity: ${state.humidity}%</li>
+                    <li class="current-list--item percipitation">Percipitation: ${state.rain ? state.rain + ' mm' : '0 mm'}</li>
+                    <li class="current-list--item pressure">Pressure: ${(state.pressure) / 10} kPa</li>
+                </ul>
+            `;
+            mainData.insertAdjacentHTML('afterbegin', markup);
+        };
+        generateMarkup();
+        
+        // const renderMarkup = function(data) {
+        //     mainData.insertAdjacentHTML('beforebegin', data)
+        // }
 
-        forcastImage.src = imageUrl;
+        // renderMarkup(generateMarkup);
+        
+
+        // forcastImage.src = imageUrl;
 
     } catch (err) {
         console.error('Problem retrieving weather data', err)
@@ -75,6 +103,8 @@ submitBtn.addEventListener('click', function(e) {
     e.preventDefault();
     const query = inputCity.value;
     if(!query) return;
+    mainData.innerHTML = 'Loading weather data...';
+    // Load weather data
     weatherData(query);
     inputCity.value = '';
     contentContainer.style.top = '-5rem';
@@ -88,22 +118,20 @@ const forecast = async function() {
 
 forecast();
 
-// Temp, make main section drop;
-
 backBtn.addEventListener('click', function() {
-    contentContainer.style.top = '80rem';
+    contentContainer.style.top = '100rem';
     inputCity.focus();
-    // backBtn.style.transform = 'rotate(180deg)';
-    // setTimneout(() => {
-    //     backBtn.style.transform = 'rotate(-180deg)';
-    // }, 500)
 });
 
-setInterval(() => {
-    backBtn.style.transform = 'translateY(1rem)';
-    setTimeout(() => {
-        backBtn.style.transform = 'translateY(0)';
-    }, 200);
-}, 2000)
+const backBtnBounce = function() {
+    setInterval(() => {
+        backBtn.style.transform = 'translateY(1rem)';
+        setTimeout(() => {
+            backBtn.style.transform = 'translateY(0)';
+        }, 200);
+    }, 2000)
+};
+backBtnBounce();
+
 
 // console.log(data);
