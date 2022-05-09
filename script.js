@@ -99,4 +99,11 @@ backBtn.addEventListener('click', function() {
     // }, 500)
 });
 
+setInterval(() => {
+    backBtn.style.transform = 'translateY(1rem)';
+    setTimeout(() => {
+        backBtn.style.transform = 'translateY(0)';
+    }, 200);
+}, 2000)
+
 // console.log(data);

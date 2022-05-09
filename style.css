@@ -1,6 +1,7 @@
 :root{
     /* --main-wt-text: #FFFCFC; */
     --main-wt-text: #ced8da;
+    --main-wt-text-darker: #b9c2c4;
     /* --color-light: #BFCECB; */
     --color-light: #ced8da;
     --color-primary: #0B3D44;
@@ -29,7 +30,7 @@ html {
 
 body{
     /* box-shadow: inset 0 0 0 1400px rgba(0,0,0,.5); */
-    background-image: url('../assets/background-lightning.jpg');
+    background-image: url('./assets/background-lightning.jpg');
     background-size:100%;
     background-repeat: no-repeat;
     background-position: 50% 10%;
@@ -86,12 +87,13 @@ body{
     position: absolute;
     width: 0;
     height: 0;
-    border-left: 20px solid var(--color-secondary);
-    border-right: 20px solid var(--color-secondary);
-    border-top: 30px solid #fff;
-    background-color: #fff;
+    /* border-left: 20px solid var(--color-secondary);
+    border-right: 20px solid var(--color-secondary); */
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-top: 35px solid #efefef;
     position: absolute;
-    top: -14rem;
+    top: -14.5rem;
     left: 50%;
     z-index: 100;
     cursor: pointer;
@@ -119,6 +121,7 @@ body{
 
 .back-btn:hover {
     transform: translateY(1rem);
+    border-top: 35px solid #e2e0e0;
 }
 
 .main-data {
@@ -181,6 +184,19 @@ footer {
     position: relative;
     bottom: -14.5rem;
     z-index: 100;
+}
+
+a:link,
+a:visited {
+    text-decoration: none;
+    color: inherit;
+    transition: color 250ms ease-out;
+    font-weight: 500;
+}
+
+a:hover,
+a:active {
+    color: var(--main-wt-text-darker)
 }
 
 
