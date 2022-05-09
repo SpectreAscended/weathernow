@@ -5,11 +5,7 @@ const contentContainer = document.querySelector('.content-container');
 const inputCity = document.querySelector('.input-city');
 const submitBtn = document.getElementById('submit-btn');
 const mainData = document.querySelector('.main-data');
-// const forcastImage = document.querySelector('.forcast-image');
 const backBtn = document.querySelector('.back-btn');
-
-
-
 
 
 const windDirection = function (dir) {
@@ -32,9 +28,9 @@ const weatherData = async function(query) {
         const data = await url.json();
         console.log(data);
         if(data.cod === '404') {
-            mainData.innerHTML = '<span>Couldn\'t find your city. Please try again!</span>'
-            throw new Error(`Couldn't find your city.  Please try again! (${data.cod})`)
-        }
+            mainData.innerHTML = '<span>Couldn\'t find your city. Please try again!</span>';
+            throw new Error(`Couldn't find your city.  Please try again! (${data.cod})`);
+        };
 
         const {lon, lat} = data.coord;
 
@@ -45,9 +41,9 @@ const weatherData = async function(query) {
         const state = {
             temp: Math.round(data.main.temp),
             feelsLike: Math.round(data.main.feels_like),
-            windSpeed: data.wind.speed,
+            windSpeed: Math.round(data.wind.speed),
             windDir: data.wind.deg,
-            gust: data?.wind.gust,
+            gust: Math.round(data?.wind.gust),
             humidity: data.main?.humidity,
             pressure: data.main.pressure,
             condition: data.weather[0].description,
@@ -58,11 +54,10 @@ const weatherData = async function(query) {
             rain: data?.rain?.['1h'],
         };
         
-
         const imageUrl = await `http://openweathermap.org/img/wn/${state.icon}@2x.png`;
-
-        const generateMarkup = function() {
-            mainData.innerHTML = '';
+        
+        const renderMarkup = function() {
+            
             const markup = `
                 <div class="current-info">
                     <img class="icon" src="${imageUrl}" alt="${state.condition}">
@@ -73,39 +68,41 @@ const weatherData = async function(query) {
                     <span class="current-info--item feels-like">Feels like: ${state.feelsLike}℃</span>
                 </div>
                 <ul class="current-list">
-                    <li class="current-list--item wind">Wind: ${windDirection(state.windDir)} at ${state.windSpeed} km/h</li>
+                    <li class="current-list--item wind">Wind: ${windDirection(state.windDir)} ${state.windSpeed} km/h</li>
                     <li class="current-list--item gusting">Gusting: ${state.gust ? state.gust : '0'} km/h</li>
                     <li class="current-list--item humidity">Humidity: ${state.humidity}%</li>
                     <li class="current-list--item percipitation">Percipitation: ${state.rain ? state.rain + ' mm' : '0 mm'}</li>
                     <li class="current-list--item pressure">Pressure: ${(state.pressure) / 10} kPa</li>
                 </ul>
             `;
+            mainData.innerHTML = '';
             mainData.insertAdjacentHTML('afterbegin', markup);
+            
         };
-        generateMarkup();
-        
-        // const renderMarkup = function(data) {
-        //     mainData.insertAdjacentHTML('beforebegin', data)
-        // }
 
-        // renderMarkup(generateMarkup);
-        
+        // Display weather data
 
-        // forcastImage.src = imageUrl;
+        renderMarkup();
 
     } catch (err) {
-        console.error('Problem retrieving weather data', err)
+        console.error('Problem retrieving weather data', err);
     };
 };
 
 
+  const spinner = `<img class="spinner" src="./assets/Spinner.png"></img>`
+
+
 submitBtn.addEventListener('click', function(e) {
     e.preventDefault();
+
     const query = inputCity.value;
     if(!query) return;
-    mainData.innerHTML = 'Loading weather data...';
+    mainData.innerHTML = spinner;
+
     // Load weather data
     weatherData(query);
+
     inputCity.value = '';
     contentContainer.style.top = '-5rem';
 });
@@ -129,9 +126,7 @@ const backBtnBounce = function() {
         setTimeout(() => {
             backBtn.style.transform = 'translateY(0)';
         }, 200);
-    }, 2000)
+    }, 2000);
 };
 backBtnBounce();
 
-
-// console.log(data);
