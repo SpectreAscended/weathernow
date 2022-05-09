@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WeatherNow!</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron&family=Roboto:ital,wght@0,400;0,500;0,700;1,400;1,500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script defer src="script.js"></script>
+</head>
+<body>
+    <main class="main-body">
+        <div class="container">
+            <h1 class="heading-primary">WeatherNow!</h1>
+            <div class="form-container">
+
+                <form class="form">
+                    <input class="input-city" type="text" placeholder="Enter a city name" autofocus>
+                    <button id="submit-btn" class="submit-btn" type="submit">GO</button>
+                </form>
+            </div>
+        </div>
+
+    </main>
+    <div class="content-container">
+        <div class="back-btn"></div>
+        <div class="main-data">
+            <img class="forcast-image" src="">
+            <span class="city">Could not find the city, please try again!</span>
+            <br>
+            <span class="temp"></span>
+            <br>
+            <span class="feels-like"></span>
+            <br>
+            <span class="wind"></span>
+            <!-- <ul class="current-list">
+                <li class="weather-icon"><img src="#"</li>
+                <li class="current-list-item condition">Sunny</li>
+                <li class="current-list-item current-temp">Current temp: 25℃</li>
+                <li class="current-list-item feels-like">Feels like 24℃</li>
+                <li class="current-list-item">Wind: E at 15kph</li>
+                <li class="current-list-item">Gusting: 0</li>
+                <li class="current-list-item">Pressure</li>
+                <li class="current-list-item">Percipitation</li>
+                <li class="current-list-item">Pressure</li>
+            </ul> -->
+        </div>
+    </div>
+    <footer class="footer"><span>Developed by Cory Pollard using Open Weather Map and GeoApify APIs &copy; 2022 </span></footer>
+</body>
+</html>
