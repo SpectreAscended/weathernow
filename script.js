@@ -61,7 +61,7 @@ const weatherData = async function(query) {
             const markup = `
                 <div class="current-info">
                     <img class="icon" src="${imageUrl}" alt="${state.condition}">
-                    <span class="current-info--item country">${state.country}</span>
+                    <span class="current-info--item country">${state.country ? state.country : ''}</span>
                     <span class="current-info--item city">${state.city}${state.provState ? ', ' + state.provState : ''}</span>
                     <span class="current-info--item condition">${state.condition.slice(0,1).toUpperCase() + state.condition.slice(1)}</span>
                     <span class="current-info--item current-temp">Current temp: ${state.temp}℃</span>
@@ -90,12 +90,13 @@ const weatherData = async function(query) {
 };
 
 
-  const spinner = `<img class="spinner" src="./assets/Spinner.png"></img>`
 
 
 submitBtn.addEventListener('click', function(e) {
     e.preventDefault();
 
+    const spinner = `<img class="spinner" src="./assets/Spinner.png"></img>`;
+    
     const query = inputCity.value;
     if(!query) return;
     mainData.innerHTML = spinner;
@@ -115,9 +116,15 @@ const forecast = async function() {
 
 forecast();
 
-backBtn.addEventListener('click', function() {
+const returnHome = function() {
     contentContainer.style.top = '100rem';
     inputCity.focus();
+};
+
+backBtn.addEventListener('click', returnHome);
+
+document.addEventListener('keydown', function(e) {
+    if(e.key === 'Escape') returnHome();
 });
 
 const backBtnBounce = function() {
